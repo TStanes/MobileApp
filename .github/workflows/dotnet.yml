@@ -1,0 +1,88 @@
+name: Build APK + API and Deploy
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # 🔹 Build & Publish Web API
+      - name: Publish Web API
+        run: dotnet publish Sobas_Mob_Web/Sobas_Mob_Web.csproj -c Release -o publish
+
+      # 🔹 Build APK (IMPORTANT FIX)
+      - name: Build MAUI Android APK
+        run: |
+          dotnet publish Sobas_Mob/Sobas_Mob.csproj `
+            -f net9.0-android `
+            -c Release `
+            -p:AndroidPackageFormat=apk `
+            -o apk
+      # 🔹 Verify APK exists
+      - name: Verify APK
+        run: dir apk
+
+      # 🔹 Upload API
+      - name: Upload Web API Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapi
+          path: publish
+
+      # 🔹 Upload APK
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: apk
+
+
+  deploy-api:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+      - name: Download API Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: webapi
+          path: publish
+
+      - name: Deploy to IIS
+        shell: pwsh
+        run: |
+          $target = "C:\inetpub\wwwroot\MobileApi"
+          if (Test-Path $target) {
+            Remove-Item "$target\*" -Recurse -Force -ErrorAction SilentlyContinue
+          }
+          Copy-Item -Path "publish\*" -Destination $target -Recurse -Force
+  download-apk:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+      - name: Download APK
+        uses: actions/download-artifact@v4
+        with:
+          name: apk
+          path: apk
+
+      - name: Show APK Files
+        run: dir apk
