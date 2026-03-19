@@ -1,0 +1,63 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+namespace Sobas_Mob.Models;
+
+[Table("TaxMDetails")]
+[Index("IsActive", Name = "IX_TaxMDetails_IsActive_Includes")]
+[Index("TaxUid", "IsActive", Name = "IX_TaxMDetails_TaxUID_IsActive")]
+public partial class TaxMdetail
+{
+    [Key]
+    [Column("TaxDetailsUID")]
+    public Guid TaxDetailsUid { get; set; }
+
+    [Column("TaxUID")]
+    public Guid TaxUid { get; set; }
+
+    [Column("TaxTypeUID")]
+    public Guid TaxTypeUid { get; set; }
+
+    [Column(TypeName = "decimal(10, 2)")]
+    public decimal? TaxPercentage { get; set; }
+
+    [StringLength(20)]
+    [Unicode(false)]
+    public string ReportDesc { get; set; } = null!;
+
+    public bool IsActive { get; set; }
+
+    [StringLength(50)]
+    [Unicode(false)]
+    public string CreatedBy { get; set; } = null!;
+
+    [Column(TypeName = "datetime")]
+    public DateTime CreatedDate { get; set; }
+
+    [StringLength(50)]
+    [Unicode(false)]
+    public string ModifiedBy { get; set; } = null!;
+
+    [Column(TypeName = "datetime")]
+    public DateTime ModifiedDate { get; set; }
+
+    [Column(TypeName = "decimal(10, 2)")]
+    public decimal? LowerRateTaxPercentage { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? RefCreatedDate { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? RefModifiedDate { get; set; }
+
+    [ForeignKey("TaxTypeUid")]
+    [InverseProperty("TaxMdetails")]
+    public virtual TaxTypeM TaxTypeU { get; set; } = null!;
+
+    [ForeignKey("TaxUid")]
+    [InverseProperty("TaxMdetails")]
+    public virtual TaxM TaxU { get; set; } = null!;
+}

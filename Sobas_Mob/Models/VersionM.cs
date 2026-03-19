@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+namespace Sobas_Mob.Models;
+
+[Keyless]
+[Table("VersionM")]
+public partial class VersionM
+{
+    [Column("VersionID")]
+    public int VersionId { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime VersionDate { get; set; }
+
+    [StringLength(50)]
+    [Unicode(false)]
+    public string Versions { get; set; } = null!;
+
+    public int? IsScriptUpdate { get; set; }
+
+    public bool? IsActive { get; set; }
+
+    [StringLength(50)]
+    [Unicode(false)]
+    public string? CreatedBy { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? CreatedDate { get; set; }
+
+    [StringLength(50)]
+    [Unicode(false)]
+    public string? ModifiedBy { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? ModifiedDate { get; set; }
+
+    [Column("BranchUID")]
+    public Guid? BranchUid { get; set; }
+}

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="YourApp.Pages.RemarksPopupPage"
+    BackgroundColor="#80000000">
+
+    <Grid VerticalOptions="Center" HorizontalOptions="Center">
+
+        <Frame WidthRequest="340"
+               Padding="20"
+               CornerRadius="12"
+               BackgroundColor="White"
+               HasShadow="True">
+
+            <VerticalStackLayout Spacing="15">
+
+                <!-- Title -->
+                <Label Text="Select Details"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+
+                <!-- Category Dropdown -->
+                <Picker Title="Select Category"
+                        ItemsSource="{Binding Categories}"
+                        SelectedItem="{Binding SelectedCategory}" />
+
+                <!-- Size Dropdown -->
+                <Picker Title="Select Size"
+                        ItemsSource="{Binding Sizes}"
+                        SelectedItem="{Binding SelectedSize}" />
+
+                <!-- Quantity Selector -->
+                <Frame BorderColor="#DADADA"
+                       CornerRadius="8"
+                       Padding="6"
+                       HorizontalOptions="Center">
+
+                    <HorizontalStackLayout Spacing="15"
+                                           VerticalOptions="Center">
+
+                        <Button Text="?"
+                                FontSize="20"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                Clicked="DecreaseQty" />
+
+                        <Label Text="{Binding Quantity}"
+                               FontSize="16"
+                               WidthRequest="50"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" />
+
+                        <Button Text="+"
+                                FontSize="20"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                Clicked="IncreaseQty" />
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Remarks -->
+                <Editor Placeholder="Remarks"
+                        AutoSize="TextChanges"
+                        HeightRequest="80"
+                        Text="{Binding Remarks}" />
+
+                <!-- Action Buttons -->
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="10">
+
+                    <Button Text="Cancel"
+                            BackgroundColor="#E0E0E0"
+                            TextColor="Black"
+                            Clicked="OnCancelClicked" />
+
+                    <Button Text="Save"
+                            Grid.Column="1"
+                            BackgroundColor="#2196F3"
+                            TextColor="White"
+                            Clicked="OnSaveClicked" />
+                </Grid>
+
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+namespace Sobas_Mob_Web.Models;
+
+[Keyless]
+public partial class Vwvoup
+{
+    [Column("Voucher_No")]
+    [StringLength(20)]
+    [Unicode(false)]
+    public string? VoucherNo { get; set; }
+
+    [Column("Branch_Code")]
+    [StringLength(50)]
+    [Unicode(false)]
+    public string? BranchCode { get; set; }
+
+    [StringLength(50)]
+    [Unicode(false)]
+    public string? PartyId { get; set; }
+
+    [Column("dr", TypeName = "decimal(38, 3)")]
+    public decimal? Dr { get; set; }
+
+    [Column("GDesc")]
+    [StringLength(800)]
+    [Unicode(false)]
+    public string? Gdesc { get; set; }
+
+    [Column("VoucherHeaderUID")]
+    public Guid VoucherHeaderUid { get; set; }
+
+    public Guid? PartyUid { get; set; }
+}

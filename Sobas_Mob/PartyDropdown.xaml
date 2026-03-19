@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Sobas_Mob.PartyDropdown"
+             Title="Party Selection">
+
+
+	<Grid>
+
+		<!-- BACKGROUND IMAGE -->
+		<Image Source="footwear.jpg"
+               Aspect="AspectFill"
+               Opacity="0.15"
+			   HorizontalOptions="Fill"
+               VerticalOptions="Fill"/>
+
+		<!-- PAGE CONTENT -->
+		<ScrollView>
+			<VerticalStackLayout Padding="20" Spacing="16">
+
+				 <!-- HEADER ROW -->
+    <Grid ColumnDefinitions="Auto,*,Auto"
+          VerticalOptions="Center"
+          Margin="0,20,0,0">
+
+        <!-- Empty spacer (balances the logo) -->
+        <!--<BoxView Grid.Column="0" WidthRequest="40" />-->
+
+        <!-- CENTERED TITLE -->
+        <Label Grid.Column="1"
+               Text="Consumer and Industrial Product Division"
+               HorizontalTextAlignment="Center"
+               HorizontalOptions="Center"
+               TextColor="#800000"
+               FontSize="22"
+               CharacterSpacing="1.5"
+               FontAttributes="Bold" />
+
+        <!-- LOGO -->
+        <Image Grid.Column="2"
+               Source="stanes_logo"
+               HeightRequest="40"
+               HorizontalOptions="End" />
+
+    </Grid>
+			<!--<SearchBar Placeholder="Type party name..."
+				   TextChanged="OnSearchTextChanged"/>-->
+				
+				<!--<Picker x:Name="PartyPicker"
+                        Title="Choose Party"
+                        SelectedIndexChanged="PartyPicker_SelectedIndexChanged" />-->
+
+				<!-- Entry (acts like dropdown input) -->
+				<Entry x:Name="PartyEntry"
+					   Placeholder="Choose Party"
+					   TextChanged="OnSearchTextChanged"
+					   Focused="OnEntryFocused" />
+
+				<!-- Dropdown List -->
+				<CollectionView x:Name="PartyList"
+								IsVisible="False"
+								SelectionMode="Single"
+								SelectionChanged="OnPartySelected"
+								BackgroundColor="White"
+								Margin="0,0,0,0"
+								HeightRequest="400">
+
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<Label Text="{Binding DisplayText}"
+								   Padding="10"/>
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+
+				</CollectionView>
+
+				<!-- ================= CONTENT SECTION ================= -->
+
+				<!--<Label Text="Cunsumer and Industrial Product Division"
+		   Margin="0,20,0,0"
+		   HorizontalOptions="Center"
+		   VerticalOptions="Center"
+		   TextColor="#0fd366"
+		   FontSize="22"
+		   CharacterSpacing="1.5"
+		   FontAttributes="Bold" />-->
+
+				<Label.Shadow>
+					<Shadow Brush="Black"
+							Offset="1,2"
+							Radius="4"
+							Opacity="0.35" />
+				</Label.Shadow>
+
+				<Label Text="Step into Quality, Comfort And Style...!!!"
+					   FontSize="24"
+					   FontAttributes="Bold"
+					   TextColor="#2F4F2F" />
+
+				<Label Text="Your Trusted Footwear Destination"
+					   FontSize="18"
+					   FontAttributes="Bold"
+					   TextColor="#7FA35C" />
+
+				<Label Text="For decades, Stanes Footwear Centre has been a trusted name in South India, offering premium footwear for every age, occasion, and lifestyle."
+					   FontSize="12"
+					   FontAttributes="Bold"
+					   TextColor="#555"
+					   LineHeight="1.4" />
+
+				<!-- BULLET POINTS -->
+				<VerticalStackLayout Spacing="4">
+
+					<HorizontalStackLayout Spacing="8" >
+						<Label Text="✔" TextColor="#7FA35C" VerticalOptions="Start"/>
+						<Label Text="Authorized Dealer of Bata And Action"
+							   FontSize="12"
+							   LineBreakMode="WordWrap"
+					           HorizontalOptions="FillAndExpand"
+					           VerticalOptions="Start"/>
+					</HorizontalStackLayout>
+
+					<HorizontalStackLayout Spacing="8" >
+						<Label Text="✔" TextColor="#7FA35C" VerticalOptions="Start"/>
+						<Label Text="Footwear for Men, Women And Kids" 
+							   FontSize="12"
+							   LineBreakMode="WordWrap"
+					           HorizontalOptions="FillAndExpand"
+					           VerticalOptions="Start"/>
+					</HorizontalStackLayout>
+
+					<HorizontalStackLayout Spacing="8">
+						<Label Text="✔" TextColor="#7FA35C" VerticalOptions="Start"/>
+						<Label Text="Wide Range: Formal, Casual, Sports And School Shoes"
+							   FontSize="12"
+							   LineBreakMode="WordWrap"
+					           HorizontalOptions="FillAndExpand"
+					           VerticalOptions="Start"/>
+					</HorizontalStackLayout>
+
+					<HorizontalStackLayout Spacing="8">
+						<Label Text="✔" TextColor="#7FA35C" VerticalOptions="Start"/>
+						<Label Text="Trusted Quality, Comfort And Value" 
+							   FontSize="12"
+							   LineBreakMode="WordWrap"
+					           HorizontalOptions="FillAndExpand"
+					           VerticalOptions="Start"/>
+					</HorizontalStackLayout>
+
+					<HorizontalStackLayout Spacing="8">
+						<Label Text="✔" TextColor="#7FA35C" VerticalOptions="Start"/>
+						<Label Text="Latest Collections from Trusted National &amp; International &#10;Brands"
+							   FontSize="12"
+							   LineBreakMode="WordWrap"
+					           HorizontalOptions="FillAndExpand"
+					           VerticalOptions="Start"/>
+					</HorizontalStackLayout>
+
+					<HorizontalStackLayout Spacing="8">
+						<Label Text="✔" TextColor="#7FA35C" VerticalOptions="Start"/>
+						<Label Text="Expert Staff to Help You Find the Perfect Fit" 
+							   FontSize="12"
+							   LineBreakMode="WordWrap"
+					           HorizontalOptions="FillAndExpand"
+					           VerticalOptions="Start"/>
+					</HorizontalStackLayout>
+
+					<HorizontalStackLayout Spacing="8">
+						<Label Text="✔" TextColor="#7FA35C" VerticalOptions="Start"/>
+						<Label Text="Comfort-Focused Designs for Everyday And Long-Wear &#10; Use"
+							   FontSize="12"
+							   LineBreakMode="WordWrap"
+					           HorizontalOptions="FillAndExpand"
+					           VerticalOptions="Start"/>
+					</HorizontalStackLayout>
+
+					<HorizontalStackLayout Spacing="8">
+						<Label Text="✔" TextColor="#7FA35C" VerticalOptions="Start"/>
+						<Label Text="Genuine Products at Competitive Prices You Can Trust" 
+							   FontSize="12"
+							   LineBreakMode="WordWrap"
+					           HorizontalOptions="FillAndExpand"
+					           VerticalOptions="Start"/>
+					</HorizontalStackLayout>
+
+				</VerticalStackLayout>
+
+
+				<!-- ================= FOOTER ================= -->
+				<Grid Grid.Row="2"
+								  Padding="4"
+								  ColumnDefinitions="*,Auto">
+
+
+					<Label Grid.Column="1" Text="© T-Stanes" FontSize="11" FontAttributes="Bold" HorizontalOptions="End"/>
+
+					<!--<Label Grid.Column="1"
+						   Text="📧hostores@tstanes.com | 📞+917010075239"
+						   FontSize="11"
+						   HorizontalOptions="End" />-->
+				</Grid>
+			</VerticalStackLayout>
+		</ScrollView>
+
+	</Grid>
+</ContentPage>

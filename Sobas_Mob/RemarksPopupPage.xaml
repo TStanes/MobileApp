@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Sobas_Mob.RemarksPopupPage"
+    BackgroundColor="#80000000">
+
+	<ScrollView>
+		<Grid Padding="12"
+              VerticalOptions="Center"
+              HorizontalOptions="Fill">
+
+			<Frame
+                Padding="16"
+                CornerRadius="12"
+                BackgroundColor="White"
+                HasShadow="True"
+                HorizontalOptions="Fill"
+                MaximumWidthRequest="400">
+
+				<VerticalStackLayout Spacing="14">
+
+					<!-- HEADER -->
+					<Grid ColumnDefinitions="Auto,*,Auto"
+                          VerticalOptions="Center">
+
+						<ImageButton
+                            Source="scan_app_logo.png"
+                            Clicked="OnScanClicked"
+                            HeightRequest="36"
+                            WidthRequest="36"
+                            Aspect="AspectFit" />
+
+						<Label
+                            Grid.Column="1"
+                            Text="Select Details"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+
+						<Label
+                            Grid.Column="2"
+                            Text="✕"
+                            FontSize="22"
+                            FontAttributes="Bold"
+                            VerticalOptions="Center">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Tapped="OnCloseClicked"/>
+							</Label.GestureRecognizers>
+						</Label>
+					</Grid>
+
+					<Grid RowDefinitions="Auto,Auto"
+		  RowSpacing="12">
+
+						<!-- ROW 1 : CATEGORY | SIZE | COLOR -->
+						<Grid Grid.Row="0"
+							  ColumnDefinitions="1*,1*,1*"
+							  ColumnSpacing="8">
+
+							<!-- CATEGORY -->
+							<Picker Grid.Column="0"
+									Title="Category"
+									ItemsSource="{Binding Categories}"
+									SelectedItem="{Binding SelectedCategory}"
+									IsEnabled="{Binding IsCategoryEnabled}"
+									FontSize="12" />
+
+							<!-- GROUP SIZE -->
+							<Picker Grid.Column="1"
+									Title="Size"
+									ItemsSource="{Binding GroupSizes}"
+									SelectedItem="{Binding SelectedGroupSize}"
+									FontSize="12" />
+							<!-- SIZE --><!--
+							<Picker Grid.Column="2"
+									Title="Size"
+									ItemsSource="{Binding Sizes}"
+									SelectedItem="{Binding SelectedSize}"
+									FontSize="12" />-->
+
+							<!-- COLOR -->
+							<!--<Picker Grid.Column="2"
+									Title="Color"
+									ItemsSource="{Binding Colors}"
+									SelectedItem="{Binding SelectedColor}"
+									IsEnabled="{Binding IsColorEnabled}"
+									FontSize="12" />-->
+							<Entry Grid.Column="2"
+                                   Placeholder="Enter Color"
+                                   Text="{Binding SelectedColor}"
+                                   IsEnabled="{Binding IsColorEnabled}"
+                                   FontSize="12" />
+						    </Grid>
+
+						<!-- ROW 2 : QUANTITY | ADD BUTTON -->
+						<Grid Grid.Row="1"
+							  ColumnDefinitions="1*,1*"
+							  ColumnSpacing="20"
+							  VerticalOptions="Center">
+
+							<!-- QUANTITY -->
+							<Frame Grid.Column="0"
+								   BorderColor="#DADADA"
+								   CornerRadius="8"
+								   Padding="6"
+								   HeightRequest="40">
+
+								<HorizontalStackLayout
+									HorizontalOptions="Center"
+									VerticalOptions="Center"
+									Spacing="5">
+
+									<Button Text="−"
+											WidthRequest="32"
+											HeightRequest="32"
+											FontSize="14"
+											Padding="0"
+											Clicked="DecreaseQty" />
+
+									<Label Text="{Binding Quantity}"
+										   FontSize="16"
+										   WidthRequest="36"
+										   HorizontalTextAlignment="Center"
+										   VerticalTextAlignment="Center" />
+
+									<Button Text="+"
+											WidthRequest="32"
+											HeightRequest="32"
+											FontSize="14"
+											Padding="0"
+											Clicked="IncreaseQty" />
+								</HorizontalStackLayout>
+							</Frame>
+
+							<!-- ADD BUTTON -->
+							<Button Grid.Column="1"
+									Text="Add"
+									HeightRequest="40"
+									CornerRadius="8"
+									FontSize="14"
+									BackgroundColor="#4CAF50"
+									TextColor="White"
+									HorizontalOptions="Fill"
+									Clicked="AddItemClicked" />
+						</Grid>
+
+					</Grid>
+
+
+					<!-- ITEM LIST -->
+					<CollectionView
+                        ItemsSource="{Binding OrderItems}"
+                        HeightRequest="200">
+
+						<CollectionView.Header>
+							<Grid ColumnDefinitions="*,*,*"
+                                  Padding="6"
+                                  BackgroundColor="#F5F5F5">
+								<Label Text="Size" FontAttributes="Bold"/>
+								<Label Text="Color" Grid.Column="1" FontAttributes="Bold"/>
+								<Label Text="Qty" Grid.Column="2" FontAttributes="Bold"
+                                       HorizontalTextAlignment="End"/>
+							</Grid>
+						</CollectionView.Header>
+
+						<CollectionView.ItemTemplate>
+							<DataTemplate>
+								<Frame Padding="6"
+                                       Margin="2"
+                                       BorderColor="#E0E0E0"
+                                       CornerRadius="6">
+									<Grid ColumnDefinitions="*,*,*">
+										<!--<Label Text="{Binding Size}" />-->
+										<Label Text="{Binding GroupSize}" />
+										<Label Grid.Column="1" Text="{Binding Color}" />
+										<Label Grid.Column="2"
+                                               Text="{Binding Quantity}"
+                                               HorizontalTextAlignment="End"/>
+									</Grid>
+								</Frame>
+							</DataTemplate>
+						</CollectionView.ItemTemplate>
+					</CollectionView>
+
+					<!-- SUBMIT -->
+					<Button
+                        Text="Submit"
+                        HeightRequest="48"
+                        CornerRadius="8"
+                        BackgroundColor="#2196F3"
+                        TextColor="White"
+                        Clicked="OnClickedSave" />
+
+				</VerticalStackLayout>
+			</Frame>
+		</Grid>
+	</ScrollView>
+</ContentPage>

@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Sobas_Mob.OrderEntryPage"
+			  x:Name="OrderPage">
+
+	<!-- ROOT GRID -->
+	<Grid>
+
+		<!-- BACKGROUND IMAGE (MAUI WAY) -->
+		<Image Source="footwear.jpg"
+               Aspect="AspectFill"
+               Opacity="0.15"
+			   HorizontalOptions="Fill"
+               VerticalOptions="Fill"/>
+
+		<!-- PAGE CONTENT -->
+		<Grid RowDefinitions="Auto,*,Auto">
+
+			<!-- ================= HEADER ================= -->
+			<Grid Padding="10"
+                  ColumnDefinitions="Auto,*,Auto">
+
+				<!-- Add Item -->
+				<!--<ImageButton Source="scan_app_logo.png"
+                             Clicked="OnScanClicked"
+                             HeightRequest="60"
+                             WidthRequest="60"
+                             Padding="10"
+                             CornerRadius="8"
+                             Aspect="AspectFit" />-->
+				<!-- Title -->
+				<Label Grid.Column="1"
+                               Text="Sale Order"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               TextColor="#800000"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               CharacterSpacing="1.5">
+
+					<Label.Shadow>
+						<Shadow Brush="Black"
+								Offset="1,2"
+								Radius="4"
+								Opacity="0.35" />
+					</Label.Shadow>
+				</Label>
+
+				<!-- Logo -->
+				<Image Grid.Column="2"
+                       Source="stanes_logo"
+                       HeightRequest="40"
+                       HorizontalOptions="End" />
+			</Grid>
+
+			<!-- ================= MAIN CONTENT ================= -->
+			<Grid Grid.Row="1"
+                  RowDefinitions="*,*"
+                  Padding="10"
+                  RowSpacing="10">
+
+				<!-- INPUT SECTION -->
+				<ScrollView>
+					<VerticalStackLayout Spacing="12">
+
+						<!-- Item Code -->
+						<!-- HEADER + VALUE GRID -->
+						<Grid ColumnDefinitions="*,*,*"
+							  RowDefinitions="Auto,Auto"
+							  ColumnSpacing="12"
+							  RowSpacing="4">
+
+							<!-- HEADERS -->
+							<Label Grid.Row="0" Grid.Column="0"
+								   Text="Party Name"
+								   FontAttributes="Bold" />
+
+							<Label Grid.Row="0" Grid.Column="1"
+								   Text="Party Code"
+								   FontAttributes="Bold" />
+
+							<!--<Label Grid.Row="0" Grid.Column="2"
+								   Text="Remarks"
+								   FontAttributes="Bold" />-->
+
+							<!-- VALUES -->
+							<Label Grid.Row="1" Grid.Column="0"
+								   Text="{Binding PartyName }"
+								   FontAttributes="Italic"
+								   LineBreakMode="TailTruncation" />
+
+							<Label Grid.Row="1" Grid.Column="1"
+								   Text="{Binding  PartyCode }"
+								   FontAttributes="Italic"
+								   LineBreakMode="TailTruncation" />
+
+							<ImageButton Grid.Row="0"
+                                     Grid.Column="2"
+                                     Source="shopping_history.png"
+                                     WidthRequest="32"
+                                     HeightRequest="32"
+                                     BackgroundColor="Transparent"
+								     Clicked="OnOrderHistoryClicked"
+										 HorizontalOptions="End"/>
+
+							<!--<Label Grid.Row="1" Grid.Column="2"
+								   Text="{Binding Remarks}"
+								   FontAttributes="Italic"
+								   LineBreakMode="TailTruncation" />-->
+						</Grid>
+
+						<!-- Party Code -->
+						<!--<Label Text="Party Code" />-->
+						<Entry Text="{Binding ItemDescription}" Placeholder="Enter ItemDescription" IsEnabled="False" />
+
+						<!-- Party Name -->
+						<!--<Label Text="Party Name" />-->
+						<Entry Text="{Binding ItemCode}" Placeholder="Enter ItemCode"  IsEnabled="False"/>
+
+						<!-- Quantity -->
+						<!--<Label Text="Quantity" />-->
+						<!--<Entry Text="{Binding Quantity}"  Keyboard="Numeric" IsEnabled="False"  />-->
+						<Entry Text="{Binding Quantity}"   IsEnabled="False"  />
+                       
+						<!-- Rate -->
+						<!--<Entry Text="{Binding CurrentItem.Rate, Mode=TwoWay}" Keyboard="Numeric" />-->
+
+						<!-- Read-only calculated value -->
+						<!--<Label Text="{Binding Amount}" />-->	
+						<!-- Rate --> 
+						<!--<Label Text="Rate" />-->
+						<!--<Entry Text="{Binding Remarks}" Placeholder="Remarks" Focused="Remarks_Focused"  />-->
+						<!--<Label  Text="{Binding Remarks}" Placeholder="Enter Remarks"
+                              IsReadOnly="True" IsEnabled="False">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Tapped="Remarks_Tapped"/>
+							</Label.GestureRecognizers>
+						</Label>-->
+						<Label Text="{Binding Remarks}">
+							<Label.Triggers>
+								<DataTrigger TargetType="Label"
+											 Binding="{Binding Remarks}"
+											 Value="">
+									<Setter Property="Text" Value="Scan Items" />
+									<Setter Property="TextColor" Value="Gray" />
+								</DataTrigger>
+							</Label.Triggers>
+
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Tapped="Remarks_Tapped" />
+							</Label.GestureRecognizers>
+						</Label>
+
+
+
+						<!-- SAVE BUTTON -->
+					
+						<!--<Button Grid.Column="2"
+								Text="Add Item"
+								Clicked="OnSaveClicked"
+								BackgroundColor="#28B463"
+								TextColor="White"
+								CornerRadius="8"
+								Padding="10,4"/>-->
+
+					</VerticalStackLayout>
+				</ScrollView>
+
+				<!-- ADDED ITEMS -->
+				<Frame Grid.Row="1"
+                       Padding="10"
+                       BackgroundColor="Transparent"
+                       HasShadow="False"
+                       BorderColor="Transparent"
+                       CornerRadius="12">
+
+					<VerticalStackLayout>
+
+						<!--<HorizontalStackLayout
+                          HorizontalOptions="Fill"
+                          VerticalOptions="Center"
+                          Spacing="10">
+							<Grid ColumnDefinitions="*,Auto"
+                                       Padding="10"
+                                     VerticalOptions="Center">
+
+								--><!-- TITLE --><!--
+								<Label Text="Save Order"
+									   Grid.Column="0"
+									   TextColor="#800000"
+									   FontSize="20"
+									   FontAttributes="Bold"
+									   VerticalOptions="Center"
+									   HorizontalOptions="Start"/>
+
+								--><!-- SAVE ICON --><!--
+								<ImageButton
+									Grid.Column="4"
+									Source="save.png"
+									Command="{Binding SaveCommand}"
+                                    IsEnabled="{Binding AddedItems.Count, Converter={StaticResource GreaterThanZeroConverter}}"
+									WidthRequest="28"
+									HeightRequest="28"
+									BackgroundColor="Transparent"
+									Clicked="OnSaveClicked"
+									VerticalOptions="Center"
+									HorizontalOptions="End"/>
+							</Grid>
+							</HorizontalStackLayout>-->
+						<!--<Button Text="Refresh"
+			            BackgroundColor="#3498DB"
+			            TextColor="White"
+			            CornerRadius="8"
+			            Command="{Binding RefreshCommand}" />-->
+
+						<CollectionView ItemsSource="{Binding AddedItems}"
+										SelectionMode="Single"
+                                        SelectedItem="{Binding CurrentItem, Mode=TwoWay}">
+							<CollectionView.Header>
+								<Grid ColumnDefinitions="2*,2*,1*,2*"
+									  ColumnSpacing="8"
+									  Padding="3"
+									  BackgroundColor="#E8E8E8">
+
+									<Label Text="ICode"  />
+									<Label Grid.Column="1" Text="IDesc" />
+									<!--<Label Grid.Column="2" Text="PCode"/>
+									<Label Grid.Column="3" Text="PName"/>-->
+									<Label Grid.Column="2" Text="Qty" />
+									<!--<Label Grid.Column="3" Text="Rate" />-->
+									<Label Grid.Column="4" Text="Action"  />
+								</Grid>
+							</CollectionView.Header>
+
+							<CollectionView.ItemTemplate>
+								<DataTemplate>
+									<Grid ColumnDefinitions="2*,2*,1*,2*"
+										  ColumnSpacing="8"
+										  Padding="3"
+										  RowDefinitions="Auto">
+										<Label Text="{Binding ItemCode}" />
+										<Label Grid.Column="1" Text="{Binding ItemDescription}"  />
+										<!--<Label Grid.Column="2" Text="{Binding PartyCode}" />
+										<Label Grid.Column="3" Text="{Binding PartyName}" />-->
+										<Label Grid.Column="2" Text="{Binding Quantity}" />
+										<!--<Label Grid.Column="3" Text="{Binding Amount}" />-->
+
+										<!-- ACTION BUTTONS -->
+										<HorizontalStackLayout Grid.Column="4"
+															   Spacing="8">
+
+											<!-- DELETE -->
+											<ImageButton Source="d.png"
+                                                      WidthRequest="20"
+                                                     HeightRequest="20"
+                                          BackgroundColor="Transparent"
+                                                  Clicked="DeleteOrder" />
+
+
+										</HorizontalStackLayout>
+									</Grid>
+								</DataTemplate>
+							</CollectionView.ItemTemplate>						
+						</CollectionView>
+					</VerticalStackLayout>
+				</Frame>
+
+				<!-- FLOATING SAVE ORDER -->
+				<Grid Grid.Row="3"
+      HorizontalOptions="Fill"
+      VerticalOptions="Fill"
+      Padding="0"
+      Margin="0">
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<!-- 🔴 EXIT BUTTON — EXTREME LEFT -->
+					<ImageButton
+						Grid.Column="0"
+						Source="exit.png"
+						WidthRequest="24"
+						HeightRequest="24"
+						BackgroundColor="Transparent"
+						HorizontalOptions="Start"
+						VerticalOptions="Center"
+						Margin="10,200,20,0"
+						Clicked="ExitClicked" />
+
+					<!-- 🟢 RIGHT CONTENT -->
+					<HorizontalStackLayout
+						Grid.Column="1"
+						HorizontalOptions="End"
+						VerticalOptions="Center"
+						Margin="10,200,20,0"
+						Spacing="10">
+
+						<Label Text="Place Your Order"
+							   FontSize="18"
+							   FontAttributes="Bold"
+							   VerticalOptions="Center" />
+
+						<ImageButton
+							Source="s.jpg"
+							WidthRequest="24"
+							HeightRequest="24"
+							BackgroundColor="Transparent"
+							Clicked="UpdateActive" />
+					</HorizontalStackLayout>
+				</Grid>
+			</Grid>
+			
+
+			<!-- ================= FOOTER ================= -->
+			
+			<Grid Grid.Row="2"
+                  Padding="8"
+                  ColumnDefinitions="*,Auto">
+				
+
+				<Label Grid.Column="1" Text="© T-Stanes" HorizontalOptions="End"/>
+
+				<!--<Label Grid.Column="1"
+                       Text="📧 hostores@tstanes.com | 📞 +91 7010075239"
+                       FontSize="12"
+                       HorizontalOptions="End" />-->
+			</Grid>
+
+		</Grid>
+	</Grid>
+</ContentPage>

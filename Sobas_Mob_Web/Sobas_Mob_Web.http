@@ -1,0 +1,6 @@
+@Sobas_Mob_Web_HostAddress = http://localhost:5185
+
+GET {{Sobas_Mob_Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+	xmlns:converters="clr-namespace:Sobas_Mob.Converters"
+    x:Class="Sobas_Mob.Popups.OrderHistoryPopup"
+	Color="Transparent">
+	<!-- 1️⃣ Resources go here -->
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<converters:IndexPlusOneConverter x:Key="IndexPlusOneConverter" />
+		</ResourceDictionary>
+	</ContentPage.Resources>
+	<!--<Grid>
+
+		--><!-- 🔹 Background Image --><!--
+		<Image Source="footwear.jpg"
+               Aspect="AspectFill"
+               Opacity="0.15"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill" />-->
+    <Frame Padding="16"
+           BackgroundColor="White"
+           WidthRequest="400"
+           HeightRequest="500">
+
+        <VerticalStackLayout Spacing="12">
+
+            <!-- Header -->
+            <Label Text="Order History"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <!-- Order list -->
+			<CollectionView x:Name="ItemsList"
+                          ItemsSource="{Binding OrderHistory}"
+                          HeightRequest="300">
+				<CollectionView.Header>
+					<Grid ColumnDefinitions="4*,4*,4*,4*,4*,*,*"
+						  ColumnSpacing="8"
+						  Padding="3"
+						  BackgroundColor="#E8E8E8">
+						<Label Text="S.No" />
+						<Label Grid.Column="1" Text="I.Code"  />
+						<Label Grid.Column="2" Text="I.Desc" />
+						<Label Grid.Column="3" Text="Qty" />
+						<Label Grid.Column="4" Text="Rmks" />
+					</Grid>
+				</CollectionView.Header>
+
+				<CollectionView.ItemTemplate>
+					<DataTemplate>
+						<Grid ColumnDefinitions="4*,4*,4*,4*,4*,*,*"
+							  ColumnSpacing="8"
+							  Padding="3"
+							  RowDefinitions="Auto">
+							<!-- ✅ S.No using Index property from ViewModel -->
+							<Label Text="{Binding Index, Converter={StaticResource IndexPlusOneConverter}}" />
+								
+							<Label Grid.Column="1" Text="{Binding ItemCode}" />
+							<Label Grid.Column="2" Text="{Binding ItemDescription}"  />
+							<Label Grid.Column="3" Text="{Binding Quantity}" />
+							<Label Grid.Column="4" Text="{Binding Remarks}" />
+						</Grid>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Close -->
+            <Button Text="Close"
+					  Margin="0,20,0,0"
+                    Clicked="OnCloseClicked" />
+
+        </VerticalStackLayout>
+    </Frame>
+	<!--</Grid>-->
+</toolkit:Popup>
