@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Sobas_Mob;
 using Sobas_Mob_Web.Models;
-using Sobas_Mob_Web.TestModels;
+
 
 namespace Sobas_Mob_Web.Controllers
 {
@@ -15,19 +15,18 @@ namespace Sobas_Mob_Web.Controllers
     {
 
         private readonly CommonDB_TestDbContext _Dbcontext;
-        private readonly TestCommonDB_TestDbContext _TestDbContext;
+      
 
-        public OrderEntryController(CommonDB_TestDbContext Dbcontext, TestCommonDB_TestDbContext TestDbContext)
+        public OrderEntryController(CommonDB_TestDbContext Dbcontext)
         {
             _Dbcontext = Dbcontext;
-            _TestDbContext = TestDbContext;
+            
         }
         [Authorize]
         [HttpGet("GetItemCode")]
         public async Task<IActionResult> GetItemCode()
         {
-            //var data = await _Dbcontext.PartyMs //Live DB
-            var data = await _TestDbContext.PartyMs //TestDB
+            var data = await _Dbcontext.PartyMs //Live DB
                 .Where(x => x.IsActive == true &&
                     x.PartyTypeUid == Guid.Parse("46B89E78-B97A-44D3-83E9-8661436A50BA") &&
                     x.PartyCode.Length >= 5 &&                 // 🔴 IMPORTANT (see issue 2)
@@ -70,8 +69,7 @@ namespace Sobas_Mob_Web.Controllers
                 string newOrderNo;
 
                 // 🔥 STEP 1: Check existing inactive order for same party
-                //var existingOrder = await _Dbcontext.SalesOrderForMobiles //Live DB
-                var existingOrder = await _TestDbContext.SalesOrderForMobiles   //Test DB
+                var existingOrder = await _Dbcontext.SalesOrderForMobiles //Live DB
                     .Where(x => x.PartyCode == dto.PartyCode
                              && x.PartyName == dto.PartyName
                              && x.IsActive == false)
@@ -86,8 +84,7 @@ namespace Sobas_Mob_Web.Controllers
                 else
                 {
 
-                    //var orderNumbers = await _Dbcontext.SalesOrderForMobiles.Where(x => x.OrderNo != null)  //Live DB
-                    var orderNumbers = await _TestDbContext.SalesOrderForMobiles.Where(x => x.OrderNo != null)    //Test DB
+                   var orderNumbers = await _Dbcontext.SalesOrderForMobiles.Where(x => x.OrderNo != null)  //Live DB
                                           .Select(x => x.OrderNo).ToListAsync();
 
                     string lastOrderNo = orderNumbers.OrderByDescending(order =>
@@ -123,8 +120,7 @@ namespace Sobas_Mob_Web.Controllers
                 if (!string.IsNullOrWhiteSpace(newCategory))
                 {
                     // Get existing remarks for same order
-                    //var existingRemarks = await _Dbcontext.SalesOrderForMobiles  //Live DB
-                    var existingRemarks = await _TestDbContext.SalesOrderForMobiles  //Test DB
+                    var existingRemarks = await _Dbcontext.SalesOrderForMobiles  //Live DB
                         .Where(x =>
                             x.OrderNo == newOrderNo &&
                             x.PartyCode == dto.PartyCode &&
@@ -153,8 +149,7 @@ namespace Sobas_Mob_Web.Controllers
                 }
 
                 // 🔥 Create Order
-                //var order = new Models.SalesOrderForMobile  //Live DB
-                var order = new TestModels.SalesOrderForMobile  //Test DB
+                var order = new Models.SalesOrderForMobile  //Live DB
                 {
                     SalesOrderUid = Guid.NewGuid(),
                     OrderNo = newOrderNo,
@@ -173,10 +168,8 @@ namespace Sobas_Mob_Web.Controllers
                     ModifiedBy = dto.PartyName
                 };
 
-               // await _Dbcontext.SalesOrderForMobiles.AddAsync(order); //Live DB
-                await _TestDbContext.SalesOrderForMobiles.AddAsync(order); //Test DB
-                //await _Dbcontext.SaveChangesAsync(); // Live DB
-                await _TestDbContext.SaveChangesAsync(); //Test DB
+                await _Dbcontext.SalesOrderForMobiles.AddAsync(order); //Live DB
+                await _Dbcontext.SaveChangesAsync(); // Live DB
 
                 return Ok(order);
             }
@@ -190,8 +183,7 @@ namespace Sobas_Mob_Web.Controllers
         [HttpGet("GetByOrderId/{orderNo}")]
         public async Task<IActionResult> GetByOrderId(string orderNo, [FromQuery] string PartyCode, [FromQuery] string PartyName)
         {
-            //var items = await _Dbcontext.SalesOrderForMobiles //Live DB
-            var items = await _TestDbContext.SalesOrderForMobiles //Test DB
+            var items = await _Dbcontext.SalesOrderForMobiles //Live DB
                 .AsNoTracking()
                 .Where(x => x.OrderNo == orderNo && x.IsActive == false &&
                 (!string.IsNullOrEmpty(PartyCode) || x.PartyCode == PartyCode) &&
@@ -215,8 +207,7 @@ namespace Sobas_Mob_Web.Controllers
         [HttpPut("ActivateOrder/{OrderNo}/{UserName}")]
         public async Task<IActionResult> ActivateOrder(string OrderNo, string UserName)
         {
-            //var orders = await _Dbcontext.SalesOrderForMobiles  //Live DB
-            var orders = await _TestDbContext.SalesOrderForMobiles    //Test DB
+            var orders = await _Dbcontext.SalesOrderForMobiles  //Live DB
                 .Where(x => x.OrderNo == OrderNo)
                 .ToListAsync();
 
@@ -232,8 +223,7 @@ namespace Sobas_Mob_Web.Controllers
                 order.OrderDate = DateTime.Now;
             }
 
-            //var res = await _DbContext.SaveChangesAsync(); //Live DB 
-            var res = await _TestDbContext.SaveChangesAsync();  // Test DB
+            var res = await _DbContext.SaveChangesAsync(); //Live DB 
             if (res > 0)
             {
                 await ExecuteStoredProcedure(OrderNo); // ✅ correct
@@ -261,8 +251,7 @@ namespace Sobas_Mob_Web.Controllers
         [HttpDelete("DeleteOrder/{orderNo}/{salesOrderUID}")]
         public async Task<IActionResult> DeleteOrder(string orderNo, Guid salesOrderUID)
         {
-            //var orders = await _Dbcontext.SalesOrderForMobiles  //Live DB 
-            var orders = await _TestDbContext.SalesOrderForMobiles   //Test DB
+            var orders = await _Dbcontext.SalesOrderForMobiles  //Live DB 
                 .Where(x => x.OrderNo == orderNo && x.SalesOrderUid == salesOrderUID)
                 .ToListAsync();
 
@@ -280,8 +269,7 @@ namespace Sobas_Mob_Web.Controllers
         [HttpGet("GetLastOrder")]
         public async Task<IActionResult> GetLastOrder()
         {
-            // var last = await _Dbcontext.SalesOrderForMobiles  //Live DB
-            var last = await _TestDbContext.SalesOrderForMobiles  //Test DB
+             var last = await _Dbcontext.SalesOrderForMobiles  //Live DB
                 .OrderByDescending(x => x.CreatedDate)
                 .Select(x => new { x.OrderNo })
                 .FirstOrDefaultAsync();
@@ -295,10 +283,8 @@ namespace Sobas_Mob_Web.Controllers
             //if (!DateTime.TryParse(orderDate, out var parsedDate))
             //    return BadRequest("Invalid date format"); 
 
-            //Live DB
-            //var last = await _Dbcontext.SalesOrderForMobiles.Where(x => x.OrderDate.Date == orderDate.Date && x.PartyCode == PartyCode && x.PartyName == PartyName && x.IsActive == true)
-            //Test DB
-            var last = await _TestDbContext.SalesOrderForMobiles.Where(x => x.OrderDate.Date == orderDate.Date && x.PartyCode == PartyCode && x.PartyName == PartyName && x.IsActive == true)
+            Live DB
+            var last = await _Dbcontext.SalesOrderForMobiles.Where(x => x.OrderDate.Date == orderDate.Date && x.PartyCode == PartyCode && x.PartyName == PartyName && x.IsActive == true)
                 //.OrderByDescending(x => x.CreatedDate)
                 .Select(x => new
                 {
@@ -315,8 +301,7 @@ namespace Sobas_Mob_Web.Controllers
         [HttpGet("GetGroupSizesByCategory")]
         public async Task<IActionResult> GetGroupSizesByCategory(string category)
         {
-            //var sizes = await _Dbcontext.ShoeSizes  //Live DB
-            var sizes = await _Dbcontext.ShoeSizes  //Test DB
+            var sizes = await _Dbcontext.ShoeSizes  //Live DB
                        .Where(x => x.Category == category)
                        .Select(x => x.GroupSize)
                        .Distinct()
@@ -353,8 +338,7 @@ namespace Sobas_Mob_Web.Controllers
         [HttpGet("GetSizesByCategory")]
         public async Task<IActionResult> GetSizesByCategory(string category)
         {
-            //var sizes = await _Dbcontext.ShoeSizes  //Live DB
-            var sizes = await _TestDbContext.ShoeSizes  // Test DB
+            var sizes = await _Dbcontext.ShoeSizes  //Live DB
                     .Where(x => x.Category == category)
                     .Select(x => x.ShoeSize1)
                     .Distinct()
@@ -377,8 +361,7 @@ namespace Sobas_Mob_Web.Controllers
         [HttpGet("GetColorsByCategory")]
         public async Task<IActionResult> GetColorsByCategory(string category)
         {
-            //var colorStrings = await _Dbcontext.ShoeSizes  //Live DB 
-            var colorStrings = await _TestDbContext.ShoeSizes // Test DB
+            var colorStrings = await _Dbcontext.ShoeSizes  //Live DB 
         .Where(x => x.Category == category).OrderBy(x => x.Color)
         .Select(x => x.Color)
         .ToListAsync();   // DB call ends here
@@ -401,8 +384,7 @@ namespace Sobas_Mob_Web.Controllers
 
             try
             {
-                //await _Dbcontext.Database.ExecuteSqlRawAsync(  //Live DB
-                await _TestDbContext.Database.ExecuteSqlRawAsync(   //Test DB
+                await _Dbcontext.Database.ExecuteSqlRawAsync(  //Live DB
                     "EXEC InsertSalesOrderFromMobileAppData @OrderNo",
                     new SqlParameter("@OrderNo", OrderNo)
                 );
