@@ -73,6 +73,12 @@ namespace Sobas_Mob
             get => _remarks;
             set { if (_remarks == value) return; _remarks = value; OnPropertyChanged(); }
         }
+        private string? _username;
+        public string? UserName
+        {
+            get => _username;
+            set { if (_username == value) return; _username = value; OnPropertyChanged(); }
+        }
 
         private string? _partyName;
         public string? PartyName

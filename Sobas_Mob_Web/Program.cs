@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Sobas_Mob_Web;
 using Sobas_Mob_Web.Models;
+using Sobas_Mob_Web.TestModels;
 using System;
 using System.Security.Cryptography;
 using System.Text;
@@ -50,9 +51,14 @@ if (builder.Environment.IsDevelopment())
 });
 }
 
-
+//Live DB
 builder.Services.AddDbContext<CommonDB_TestDbContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Test Db
+builder.Services.AddDbContext<TestCommonDB_TestDbContext>(options =>
+   options.UseSqlServer(builder.Configuration.GetConnectionString("TestDefaultConnection")));
+
 
 
 

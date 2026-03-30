@@ -279,11 +279,17 @@ namespace Sobas_Mob
             try
             {
                 var vm = BindingContext as OrderEntryViewModel;
-                if (vm == null || string.IsNullOrWhiteSpace(vm.OrderNo))
+                if (vm == null || string.IsNullOrWhiteSpace(vm.OrderNo) )
                 {
                     //await DisplayAlert("Error", "Order ID not found", "OK");
                     await DisplayAlert("Order Required","Please add at least one item before placing the order.","OK");
-
+                    
+                        return;
+                }
+                if (vm == null || string.IsNullOrWhiteSpace(vm.UserName))
+                {
+                    //await DisplayAlert("Error", "Order ID not found", "OK");
+                    await DisplayAlert("UserName Required", "Please Enter your Name.", "OK");
                     return;
                 }
 
@@ -296,7 +302,7 @@ namespace Sobas_Mob
                 _http.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokenObj.token);
 
-                var url = $"OrderEntry/ActivateOrder/{Uri.EscapeDataString(vm.OrderNo)}";
+                var url = $"OrderEntry/ActivateOrder/{Uri.EscapeDataString(vm.OrderNo)}/{Uri.EscapeDataString(vm.UserName)}";
                 //var response = await _httpClient.PutAsync(url, null);
                 var response = await _http.PutAsync(url, null);
 
@@ -308,6 +314,7 @@ namespace Sobas_Mob
                 }
                 vm.AddedItems.Clear();
                 vm.OrderNo = string.Empty;
+                vm.UserName = string.Empty;
                 await DisplayAlert("Success", "Order activated successfully", "OK");
             }
             catch (Exception ex)

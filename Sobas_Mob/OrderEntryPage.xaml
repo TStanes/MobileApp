@@ -137,6 +137,8 @@
 								<TapGestureRecognizer Tapped="Remarks_Tapped"/>
 							</Label.GestureRecognizers>
 						</Label>-->
+
+						<Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
 						<Label Text="{Binding Remarks}">
 							<Label.Triggers>
 								<DataTrigger TargetType="Label"
@@ -151,7 +153,15 @@
 								<TapGestureRecognizer Tapped="Remarks_Tapped" />
 							</Label.GestureRecognizers>
 						</Label>
+							<!-- RIGHT SIDE ENTRY -->
+							
+							<Entry Grid.Column="1"
+								   Text="{Binding UserName}"
+								   Placeholder="Enter User Name"
+								   HorizontalOptions="End"
+								   WidthRequest="150"/>
 
+						</Grid>
 
 
 						<!-- SAVE BUTTON -->
@@ -214,7 +224,9 @@
 			            CornerRadius="8"
 			            Command="{Binding RefreshCommand}" />-->
 
-						<CollectionView ItemsSource="{Binding AddedItems}"
+						<CollectionView HeightRequest="200"
+										VerticalScrollBarVisibility="Always"
+										ItemsSource="{Binding AddedItems}"
 										SelectionMode="Single"
                                         SelectedItem="{Binding CurrentItem, Mode=TwoWay}">
 							<CollectionView.Header>
@@ -232,8 +244,9 @@
 									<Label Grid.Column="4" Text="Action"  />
 								</Grid>
 							</CollectionView.Header>
-
-							<CollectionView.ItemTemplate>
+							<!--<CollectionView HeightRequest="200"
+											VerticalScrollBarVisibility="Always">-->
+							<CollectionView.ItemTemplate >
 								<DataTemplate>
 									<Grid ColumnDefinitions="2*,2*,1*,2*"
 										  ColumnSpacing="8"
@@ -261,8 +274,9 @@
 										</HorizontalStackLayout>
 									</Grid>
 								</DataTemplate>
-							</CollectionView.ItemTemplate>						
-						</CollectionView>
+							</CollectionView.ItemTemplate>
+							</CollectionView>
+						<!--</CollectionView>-->
 					</VerticalStackLayout>
 				</Frame>
 
