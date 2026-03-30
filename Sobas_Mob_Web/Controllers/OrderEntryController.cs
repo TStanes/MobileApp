@@ -258,9 +258,7 @@ namespace Sobas_Mob_Web.Controllers
             if (!orders.Any())
                 return NotFound("Order not found");
 
-            //_Dbcontext.SalesOrderForMobiles.RemoveRange(orders);
-            _TestDbContext.SalesOrderForMobiles.RemoveRange(orders);
-            //await _Dbcontext.SaveChangesAsync();
+            _Dbcontext.SalesOrderForMobiles.RemoveRange(orders);
             await _TestDbContext.SaveChangesAsync();
 
             return Ok("Order deleted successfully");
