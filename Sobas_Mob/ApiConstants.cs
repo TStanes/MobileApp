@@ -75,10 +75,10 @@ namespace Sobas_Mob
                 // We cannot reliably guess your PC IP on every network.
                 // So keep a placeholder that forces you to set it once via SetBaseUrl().
                 //return $"http://10.10.1.6:80/api/"; // <-- replace OR set dynamically
-                //return $"http://172.18.72.58:5134/api/"; // <-- replace OR set dynamically  Testing purpose use this ip
+                return $"http://172.18.72.58:5134/api/"; // <-- replace OR set dynamically  Testing purpose use this ip
               
                  //return $"https://qrcode.sytes.net/api/";   // <-- replace OR set dynamically
-                  return $"https://qrcode.tstanesit.com/api/";
+                 // return $"https://qrcode.tstanesit.com/api/";
 
 
 #elif IOS

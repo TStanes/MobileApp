@@ -24,6 +24,7 @@ namespace Sobas_Mob_Web
 
         public decimal Amount { get; set; }
         public string CreatedBy { get; set; }
+        public string? Username { get; set; }
         
     }
 }
