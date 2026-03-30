@@ -281,7 +281,7 @@ namespace Sobas_Mob_Web.Controllers
             //if (!DateTime.TryParse(orderDate, out var parsedDate))
             //    return BadRequest("Invalid date format"); 
 
-            Live DB
+            //Live DB
             var last = await _Dbcontext.SalesOrderForMobiles.Where(x => x.OrderDate.Date == orderDate.Date && x.PartyCode == PartyCode && x.PartyName == PartyName && x.IsActive == true)
                 //.OrderByDescending(x => x.CreatedDate)
                 .Select(x => new
