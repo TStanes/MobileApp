@@ -55,9 +55,6 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddDbContext<CommonDB_TestDbContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//Test Db
-//builder.Services.AddDbContext<TestCommonDB_TestDbContext>(options =>
- //  options.UseSqlServer(builder.Configuration.GetConnectionString("TestDefaultConnection")));
 
 
 
