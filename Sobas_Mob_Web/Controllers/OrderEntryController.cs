@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Sobas_Mob;
 using Sobas_Mob_Web.Models;
-
+//using Sobas_Mob_Web.TestModels;
 
 namespace Sobas_Mob_Web.Controllers
 {
@@ -15,7 +15,7 @@ namespace Sobas_Mob_Web.Controllers
     {
 
         private readonly CommonDB_TestDbContext _Dbcontext;
-      
+        
 
         public OrderEntryController(CommonDB_TestDbContext Dbcontext)
         {
@@ -84,7 +84,7 @@ namespace Sobas_Mob_Web.Controllers
                 else
                 {
 
-                   var orderNumbers = await _Dbcontext.SalesOrderForMobiles.Where(x => x.OrderNo != null)  //Live DB
+                    var orderNumbers = await _Dbcontext.SalesOrderForMobiles.Where(x => x.OrderNo != null)  //Live DB
                                           .Select(x => x.OrderNo).ToListAsync();
 
                     string lastOrderNo = orderNumbers.OrderByDescending(order =>
@@ -223,7 +223,7 @@ namespace Sobas_Mob_Web.Controllers
                 order.OrderDate = DateTime.Now;
             }
 
-            var res = await _DbContext.SaveChangesAsync(); //Live DB 
+            var res = await _Dbcontext.SaveChangesAsync(); //Live DB 
             if (res > 0)
             {
                 await ExecuteStoredProcedure(OrderNo); // ✅ correct
